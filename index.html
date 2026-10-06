@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo Store — GA4 + GTM E-commerce Tracking Sample</title>
+<meta name="robots" content="noindex">
+<script>window.dataLayer = window.dataLayer || [];</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5TK4KBPW');</script>
+<!-- End Google Tag Manager -->
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#1c1b19;--mute:#6b675f;--line:#e2ded5;--accent:#0f5c4c;--accent-ink:#fff;--log:#14201d;--log-ink:#b9e6d6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.banner{background:#fff3c4;color:#5a4500;text-align:center;font-size:14px;padding:8px 16px}
+header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--line);background:var(--card)}
+header h1{font-size:20px;margin:0;letter-spacing:.02em}
+button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:9px 16px}
+button.ghost{background:transparent;color:var(--accent)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;max-width:1180px;margin:0 auto;padding:24px}
+h2{font-size:18px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.swatch{height:120px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:600;font-size:14px;cursor:pointer}
+.price{font-variant-numeric:tabular-nums;color:var(--mute)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.cart-line{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.total{display:flex;justify-content:space-between;font-weight:600;margin:10px 0}
+input[type=email]{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;margin-bottom:8px}
+.note{font-size:13px;color:var(--mute)}
+#detail{display:none}
+#log{background:var(--log);color:var(--log-ink);border-radius:12px;padding:12px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;max-height:300px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+#log b{color:#fff}
+.ok{background:#e3f4ec;border:1px solid #9fd3bc;color:#0f5c4c;border-radius:8px;padding:10px;font-size:14px;margin-top:10px}
+footer{max-width:1180px;margin:0 auto;padding:0 24px 32px}
+@media(max-width:820px){main{grid-template-columns:1fr;padding:16px}}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5TK4KBPW" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="banner">Demo store for a tracking sample. Nothing here is for sale and no payment is taken.</div>
+<header>
+  <h1>Kite &amp; Loom <span class="note">demo tees</span></h1>
+  <span class="note">Cart: <strong id="cartCount">0</strong> items</span>
+</header>
+
+<main>
+  <section>
+    <div id="list">
+      <h2>T-shirts</h2>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div id="detail" class="panel">
+      <button class="ghost" id="back">&larr; Back to all tees</button>
+      <h2 id="dName" style="margin-top:14px"></h2>
+      <div class="swatch" id="dSwatch" style="height:200px;cursor:default"></div>
+      <p id="dDesc" class="note"></p>
+      <p class="price" id="dPrice"></p>
+      <button id="dAdd">Add to cart</button>
+    </div>
+  </section>
+
+  <aside>
+    <div class="panel">
+      <h2>Cart</h2>
+      <div id="cartLines"><p class="note">Your cart is empty.</p></div>
+      <div class="total"><span>Total</span><span id="cartTotal">₹0</span></div>
+      <div class="row">
+        <button id="checkout" disabled>Checkout</button>
+        <button id="placeOrder" class="ghost" style="display:none">Place test order</button>
+      </div>
+      <div id="orderMsg"></div>
+    </div>
+    <div class="panel">
+      <h2>Get launch updates</h2>
+      <form id="leadForm">
+        <input type="email" id="email" placeholder="you@example.com" required>
+        <button type="submit">Sign up</button>
+        <p class="note">The address is not stored or sent anywhere. Only the event name is tracked.</p>
+      </form>
+      <div id="leadMsg"></div>
+    </div>
+    <div class="panel">
+      <h2>dataLayer log</h2>
+      <p class="note">Every event this page hands to Tag Manager appears here.</p>
+      <div id="log">Waiting for events…</div>
+    </div>
+  </aside>
+</main>
+<footer class="note">Sample built by Ashwin Kumar to demonstrate GA4 e-commerce tracking through Google Tag Manager.</footer>
+
+<script>
+var CURRENCY = 'INR', LIST_ID = 'tees_home', LIST_NAME = 'Home - T-shirts';
+var PRODUCTS = [
+  {item_id:'KL-001', item_name:'Indigo Block Tee',  price:799,  item_category:'T-shirts', item_variant:'Indigo',   color:'#2f4b7c', desc:'Heavy 220 GSM cotton, boxy fit.'},
+  {item_id:'KL-002', item_name:'Marigold Pocket Tee', price:899, item_category:'T-shirts', item_variant:'Marigold', color:'#c9891a', desc:'Soft-washed jersey with a chest pocket.'},
+  {item_id:'KL-003', item_name:'Forest Stripe Tee', price:999,  item_category:'T-shirts', item_variant:'Forest',   color:'#0f5c4c', desc:'Yarn-dyed stripe, regular fit.'},
+  {item_id:'KL-004', item_name:'Clay Oversized Tee', price:1099, item_category:'T-shirts', item_variant:'Clay',    color:'#a4533a', desc:'Drop-shoulder oversized cut.'}
+];
+var cart = {};
+function $(id){ return document.getElementById(id); }
+function inr(n){ return '₹' + n.toLocaleString('en-IN'); }
+function item(p, qty, index){
+  var o = {item_id:p.item_id, item_name:p.item_name, price:p.price, item_brand:'Kite & Loom', item_category:p.item_category,
+           item_variant:p.item_variant, item_list_id:LIST_ID, item_list_name:LIST_NAME, quantity:qty || 1};
+  if (index !== undefined) o.index = index;
+  return o;
+}
+function logEvent(obj){
+  var el = $('log');
+  if (el.textContent.indexOf('Waiting') === 0) el.innerHTML = '';
+  var line = document.createElement('div');
+  var detail = obj.ecommerce ? JSON.stringify({value:obj.ecommerce.value, items:(obj.ecommerce.items||[]).map(function(i){return i.item_id + ' x' + i.quantity;}), transaction_id:obj.ecommerce.transaction_id}) : JSON.stringify(obj);
+  line.innerHTML = '<b>' + obj.event + '</b>  ' + detail.replace(/</g,'&lt;');
+  el.insertBefore(line, el.firstChild);
+}
+function pushEcom(event, ecommerce){
+  dataLayer.push({ecommerce: null});               // clear the previous ecommerce object
+  var obj = {event: event, ecommerce: ecommerce};
+  dataLayer.push(obj); logEvent(obj);
+}
+function cartItems(){ return Object.keys(cart).map(function(id){ return item(PRODUCTS.filter(function(p){return p.item_id===id;})[0], cart[id]); }); }
+function cartValue(){ return cartItems().reduce(function(s,i){ return s + i.price * i.quantity; }, 0); }
+
+function renderGrid(){
+  $('grid').innerHTML = PRODUCTS.map(function(p,i){
+    return '<div class="card"><div class="swatch" style="background:'+p.color+'" data-view="'+i+'">'+p.item_variant+'</div>' +
+      '<strong>'+p.item_name+'</strong><span class="price">'+inr(p.price)+'</span>' +
+      '<div class="row"><button class="ghost" data-view="'+i+'">View</button><button data-add="'+i+'">Add to cart</button></div></div>';
+  }).join('');
+}
+function renderCart(){
+  var items = cartItems(), count = items.reduce(function(s,i){return s+i.quantity;},0);
+  $('cartCount').textContent = count;
+  $('cartLines').innerHTML = items.length ? items.map(function(i){ return '<div class="cart-line"><span>'+i.item_name+' × '+i.quantity+'</span><span>'+inr(i.price*i.quantity)+'</span></div>'; }).join('') : '<p class="note">Your cart is empty.</p>';
+  $('cartTotal').textContent = inr(cartValue());
+  $('checkout').disabled = !items.length;
+  if (!items.length) $('placeOrder').style.display = 'none';
+}
+function addToCart(i){
+  var p = PRODUCTS[i];
+  cart[p.item_id] = (cart[p.item_id] || 0) + 1;
+  pushEcom('add_to_cart', {currency:CURRENCY, value:p.price, items:[item(p,1,i)]});
+  $('orderMsg').innerHTML = ''; renderCart();
+}
+function viewItem(i){
+  var p = PRODUCTS[i];
+  $('list').style.display = 'none'; $('detail').style.display = 'block';
+  $('dName').textContent = p.item_name; $('dSwatch').style.background = p.color; $('dSwatch').textContent = p.item_variant;
+  $('dDesc').textContent = p.desc; $('dPrice').textContent = inr(p.price); $('dAdd').setAttribute('data-add', i);
+  pushEcom('view_item', {currency:CURRENCY, value:p.price, items:[item(p,1,i)]});
+}
+document.addEventListener('click', function(e){
+  var t = e.target;
+  if (t.hasAttribute('data-add')) addToCart(+t.getAttribute('data-add'));
+  else if (t.hasAttribute('data-view')) viewItem(+t.getAttribute('data-view'));
+});
+$('back').addEventListener('click', function(){ $('detail').style.display = 'none'; $('list').style.display = 'block'; });
+$('checkout').addEventListener('click', function(){
+  pushEcom('begin_checkout', {currency:CURRENCY, value:cartValue(), items:cartItems()});
+  $('placeOrder').style.display = 'inline-block';
+});
+$('placeOrder').addEventListener('click', function(){
+  var value = cartValue(), id = 'T-' + Date.now();
+  pushEcom('purchase', {transaction_id:id, currency:CURRENCY, value:value, tax:0, shipping:0, items:cartItems()});
+  cart = {}; renderCart();
+  $('orderMsg').innerHTML = '<div class="ok">Test order ' + id + ' recorded for ' + inr(value) + '. No payment was taken.</div>';
+});
+$('leadForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var obj = {event:'generate_lead', form_name:'launch_updates'};   // no personal data is pushed
+  dataLayer.push(obj); logEvent(obj);
+  $('email').value = ''; $('leadMsg').innerHTML = '<div class="ok">Thanks. This demo did not store your email.</div>';
+});
+renderGrid(); renderCart();
+pushEcom('view_item_list', {item_list_id:LIST_ID, item_list_name:LIST_NAME, items:PRODUCTS.map(function(p,i){ return item(p,1,i); })});
+</script>
+</body>
+</html>
