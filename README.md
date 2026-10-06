@@ -35,3 +35,5 @@ GA4 Enhanced Measurement also records 90% scroll, outbound clicks and file downl
 3. The matching GA4 event tag forwards it to the GA4 property, with e-commerce data read from the dataLayer.
 
 No personal data is sent: the sign-up form pushes only the event name and form name.
+
+- `tracking_plan_qa_report.pdf` — tracking plan, container contents and QA results.

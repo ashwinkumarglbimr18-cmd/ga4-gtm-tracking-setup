@@ -486,26 +486,33 @@
         "uniqueTriggerId": {
           "type": "TEMPLATE"
         },
-        "verticalThresholdUnits": {
-          "type": "TEMPLATE",
-          "value": "PERCENT"
-        },
-        "verticalThresholdsPercent": {
-          "type": "TEMPLATE",
-          "value": "25,50,75"
-        },
-        "verticalThresholdOn": {
-          "type": "BOOLEAN",
-          "value": "true"
-        },
-        "triggerStartOption": {
-          "type": "TEMPLATE",
-          "value": "WINDOW_LOAD"
-        },
-        "horizontalThresholdOn": {
-          "type": "BOOLEAN",
-          "value": "false"
-        }
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "value": "PERCENT",
+            "key": "verticalThresholdUnits"
+          },
+          {
+            "type": "TEMPLATE",
+            "value": "25,50,75",
+            "key": "verticalThresholdsPercent"
+          },
+          {
+            "type": "BOOLEAN",
+            "value": "true",
+            "key": "verticalThresholdOn"
+          },
+          {
+            "type": "TEMPLATE",
+            "value": "WINDOW_LOAD",
+            "key": "triggerStartOption"
+          },
+          {
+            "type": "BOOLEAN",
+            "value": "false",
+            "key": "horizontalThresholdOn"
+          }
+        ]
       },
       {
         "accountId": "0",
